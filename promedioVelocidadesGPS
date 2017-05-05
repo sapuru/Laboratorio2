@@ -1,0 +1,68 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package puntos;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
+/**
+ *
+ * @author Puesto 2.2
+ */
+public class Puntos {
+
+
+public static void main(String[] args) {
+        File archivo = null; //objeto de tipo file que tiene los datos del fichero
+        FileReader fr = null; // otro objeto que linkea el objeto de tipo archivo con el archivo en sí, leyendo byte por byte
+        BufferedReader br = null; // tercer objeto que hace las veces de memoria intermedia previo a su procesamiento
+
+        try {
+         
+            archivo = new File("d:/Lab2/dataGps.txt"); // path al archivo
+            fr = new FileReader(archivo); //le paso como parámetro el archivo
+            br = new BufferedReader(fr); //es optativo y le paso como parámetro el filereader
+
+            //si son muchas las clases que debo importar ctrl+shift+i 
+            
+            // Lectura del fichero
+            String linea = "";
+            float acu=0;
+            int cont =0;
+
+            
+            while ( linea != null && cont < 1400 ) { //leer linea por linea mientras que la linea no sea nula- "null"
+                linea = br.readLine();
+                
+                String partes[]=linea.split("\t"); //a cada linea la separo por las tabulaciones "\t" y devuelve un arreglo de strings
+
+                String partes2[] = partes[7].split(" ");
+                
+                acu += Float.valueOf(partes2[0]); //saco solamente la parte de los km
+                cont++;
+                System.out.println("Contador: "+cont);
+            }
+            
+            
+            System.out.println( "la velocidad prom es: " + acu / cont ); //divido la sumatoria de los kilómetros sobre el contador, es decir la cantidad de datos. 
+            
+            
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+
+            }
+        }
+
+    }
+ }
